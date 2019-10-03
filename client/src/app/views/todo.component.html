@@ -1,0 +1,423 @@
+<div class="bg-primary text-white text-center p-3">
+    <h3>ANGULAR GET API</h3>
+</div>
+<div style="max-width: 1270px; margin: 0 auto; padding: 0 15px">
+    <div class="row">
+      <div class="col-md-3 mt-2">
+        <!-- Form Add -->
+        <div *ngIf="isShow" class="card p-2">
+          <button
+            *ngIf="!ShowAddForm"
+            class="btn btn-success"
+            (click)="ShowAddForm = !ShowAddForm"
+          >
+            NEW ITEM
+          </button>
+          <div *ngIf="ShowAddForm">
+            <h5 class="text-center bg-success text-white p-2">NEW ITEM</h5>
+            <div class="todo-input card p-3">
+              <form (ngSubmit)="postForm()" [formGroup]="formadddata">
+                <div class="form-group">
+                  <input
+                    type="number"
+                    class="form-control"
+                    name="todoId"
+                    formControlName="todoId"
+                    placeholder="ID"
+                  />
+                  <div
+                    *ngIf="
+                      formadddata.get('todoId').invalid &&
+                      (formadddata.get('todoId').dirty ||
+                        formadddata.get('todoId').touched)
+                    "
+                  >
+                    <p
+                      *ngIf="formadddata.get('todoId').hasError('required')"
+                      style="color: red !important;"
+                    >
+                      This field is required *
+                    </p>
+                  </div>
+                </div>
+  
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="todoTitle"
+                    formControlName="todoTitle"
+                    placeholder="Enter Title..."
+                  />
+                  <div
+                    *ngIf="
+                      formadddata.get('todoTitle').invalid &&
+                      (formadddata.get('todoTitle').dirty ||
+                        formadddata.get('todoTitle').touched)
+                    "
+                  >
+                    <p
+                      style="color: red !important;"
+                      *ngIf="formadddata.get('todoTitle').hasError('required')"
+                    >
+                      This field is required *
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="todoTime"
+                    formControlName="todoTime"
+                    placeholder="Enter Date"
+                  />
+                  <div
+                    *ngIf="
+                      formadddata.get('todoTime').invalid &&
+                      (formadddata.get('todoTime').dirty ||
+                        formadddata.get('todoTime').touched)
+                    "
+                  >
+                    <p
+                      style="color: red !important;"
+                      *ngIf="formadddata.get('todoTime').hasError('required')"
+                    >
+                      This field is required *
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <textarea
+                    type="textarea"
+                    class="form-control"
+                    name="todoDescription"
+                    formControlName="todoDescription"
+                    placeholder="Enter Description"
+                  ></textarea>
+                  <div
+                    *ngIf="
+                      formadddata.get('todoDescription').invalid &&
+                      (formadddata.get('todoDescription').dirty ||
+                        formadddata.get('todoDescription').touched)
+                    "
+                  >
+                    <p
+                      style="color: red !important;"
+                      *ngIf="
+                        formadddata.get('todoDescription').hasError('required')
+                      "
+                    >
+                      This field is required *
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group box-btn text-right">
+                  <button
+                    class="btn btn-cancel mr-3"
+                    (click)="ShowAddForm = !ShowAddForm"
+                  >
+                    CANCEL
+                  </button>
+                  <button
+                    class="btn btn-success "
+                    [disabled]="formadddata.invalid"
+                  >
+                    ADD
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+  
+        <!--Edit Form -->
+        <div *ngIf="!isShow" class="p-2 card">
+          <h5 class="text-center bg-info text-white p-2">EDIT ITEM</h5>
+          <div class="card p-3">
+            <form [formGroup]="changedata">
+              <div class="form-group" *ngIf="changedata.get('todoId').invalid">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="todoId"
+                  formControlName="todoId"
+                  placeholder="Enter ID"
+                />
+                <div
+                  *ngIf="
+                    changedata.get('todoId').invalid &&
+                    (changedata.get('todoId').dirty ||
+                      changedata.get('todoId').touched)
+                  "
+                >
+                  <p
+                    style="color: red !important;"
+                    *ngIf="changedata.get('todoId').hasError('required')"
+                  >
+                    This field is required *
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="todoTitle"
+                  formControlName="todoTitle"
+                  placeholder="Enter Title"
+                />
+                <div
+                  *ngIf="
+                    changedata.get('todoTitle').invalid &&
+                    (changedata.get('todoTitle').dirty ||
+                      changedata.get('todoTitle').touched)
+                  "
+                >
+                  <p
+                    style="color: red !important;"
+                    *ngIf="changedata.get('todoTitle').hasError('required')"
+                  >
+                    This field is required *
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <input
+                  type="date"
+                  class="form-control"
+                  name="todoTime"
+                  formControlName="todoTime"
+                  placeholder="Enter Date"
+                />
+                <div
+                  *ngIf="
+                    changedata.get('todoTime').invalid &&
+                    (changedata.get('todoTime').dirty ||
+                      changedata.get('todoTime').touched)
+                  "
+                >
+                  <p
+                    style="color: red !important;"
+                    *ngIf="changedata.get('todoTime').hasError('required')"
+                  >
+                    This field is required *
+                  </p>
+                </div>
+              </div>
+              <div class="form-group">
+                <textarea
+                  type="text"
+                  class="form-control"
+                  name="todoDescription"
+                  formControlName="todoDescription"
+                  placeholder="Enter Description"
+                ></textarea>
+                <div
+                  *ngIf="
+                    changedata.get('todoDescription').invalid &&
+                    (changedata.get('todoDescription').dirty ||
+                      changedata.get('todoDescription').touched)
+                  "
+                >
+                  <p
+                    style="color: red !important;"
+                    *ngIf="changedata.get('todoDescription').hasError('required')"
+                  >
+                    This field is required *
+                  </p>
+                </div>
+              </div>
+  
+              <div class="form-group text-right">
+                <button class="btn btn-default mr-3" (click)="cancel()">
+                  CANCEL
+                </button>
+                <button
+                  class="btn btn-info"
+                  [disabled]="changedata.invalid"
+                  (click)="editData(changedata, changedata.todoId)"
+                >
+                  UPDATE
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card p-2">
+          <button
+            class="btn btn-warning d-block"
+            (click)="showDeleteMulti = !showDeleteMulti"
+            [disabled]="!checkBox"
+          >
+            DELETE MULTI
+          </button>
+        </div>
+        <div class="card p-2">
+          <button class="btn btn-danger" (click)="showDeleteAll = !showDeleteAll">
+            DELETE ALL
+          </button>
+        </div>
+      </div>
+      <div class="col-md-9 mt-2">
+        <!-- List Table Demo-->
+        <div class="card">
+          <div class="card-header bg-info text-white font-weight-bold">
+            LIST ITEM
+          </div>
+          <div
+            class="card-body"
+            style="height: 100%; max-height: 600px; overflow: auto;"
+          >
+            <div class="row">
+              <ng-container *ngIf="info; else loading">
+                <div class="col-md-4" *ngFor="let item of info">
+                  <!-- List Item -->
+                  <div class="card my-2">
+                    <div
+                      class="card-header bg-secondary text-white font-weight-bold d-flex justify-content-between"
+                    >
+                      Select Item
+                      <div class="text-right">
+                        <input
+                          style="width: 25px; height: 25px;"
+                          type="checkbox"
+                          (change)="checked(item.todoId)"
+                        />
+                      </div>
+                    </div>
+                    <div class="card-body">
+                      <h4 class="card-title font-weight-normal">
+                        <span>Title: </span>{{ item.todoTitle }}
+                      </h4>
+                      <hr />
+                      <p class="card-text">
+                        <span>Description: </span>{{ item.todoDescription }}
+                      </p>
+                      <hr />
+                      <span class="time text-muted"
+                        ><span>Time: </span>{{ item.todoTime }}</span
+                      >
+                      <hr />
+                      <div class="text-right my-2">
+                        <button
+                          class="btn btn-danger btn-sm mr-2 font-weight-bold"
+                          [disabled]="!isShow || showDelete"
+                          (click)="share(item.todoId)"
+                          style="font-size: 12px"
+                        >
+                          DELETE
+                        </button>
+                        <button
+                          class="btn btn-info btn-sm font-weight-bold"
+                          [disabled]="!isShow"
+                          (click)="displayForm(item, item.todoId)"
+                          style="font-size: 12px"
+                        >
+                          EDIT
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <ng-template #loading>
+                <div class="col-sm-12">
+                  <p class="text-center">Loading...</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <!-- Modals -->
+    </div>
+    <div
+      style="position: fixed; background: rgba(0,0,0,.5); width: 100%; height: 100vh;
+    top: 0; left: 0"
+      *ngIf="showDeleteMulti"
+    >
+      <div
+        style="width:400px; margin: 0 auto;
+      padding: 30px; background: #fff;margin-top: 150px"
+      >
+        <h6>Are you sure want to delete these items?</h6>
+        <div class="form-group text-right">
+          <button
+            class="btn btn-default mr-2 mt-4"
+            (click)="showDeleteMulti = !showDeleteMulti"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-danger mt-4" (click)="deleteSelect()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      style="position: fixed; background: rgba(0,0,0,.5); width: 100%; height: 100vh;
+    top: 0; left: 0"
+      *ngIf="showDeleteAll"
+    >
+      <div
+        style="width:400px; margin: 0 auto;
+      padding: 30px; background: #fff;margin-top: 150px"
+      >
+        <h6>Are you sure want to delete all items?</h6>
+        <div class="form-group text-right">
+          <button
+            class="btn btn-default mr-2 mt-4"
+            (click)="showDeleteAll = !showDeleteAll"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-danger mt-4" (click)="deleteAll()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+    <div
+      style="position: fixed; background: rgba(0,0,0,.5); width: 100%; height: 100vh;
+    top: 0; left: 0"
+      *ngIf="showDelete"
+    >
+      <div
+        style="width:400px; margin: 0 auto;
+      padding: 30px; background: #fff;margin-top: 150px"
+      >
+        <h6>Are you sure want to delete?</h6>
+        <div class="form-group text-right">
+          <button
+            class="btn btn-cancel mr-2 mt-4"
+            (click)="showDelete = !showDelete"
+          >
+            Cancel
+          </button>
+          <button class="btn btn-danger mt-4" (click)="clickDelete()">
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Notification -->
+  
+  <p
+    *ngIf="showAddSuccess"
+    class="bg-success text-white d-inline-block m-0 p-3 text-center"
+    style="position: fixed; left: 0; right: 0; bottom: 0"
+  >
+    Thêm thành công
+  </p>
+  
+  <p
+    *ngIf="showDelSuccess"
+    class="bg-danger text-white d-inline-block m-0 p-3 text-center"
+    style="position: fixed; left: 0; right: 0; bottom: 0px"
+  >
+    Xóa thành công
+  </p>
+  
